@@ -6,22 +6,18 @@
 #define IMAGEBIRB_IMGDATA_H
 
 #include <vector>
-#include "Scanner.h"""
+#include "Scanner.h"
+#include "BitmapFileHeader.h"
 
-struct Pixel{
-    unsigned char B;
-    unsigned char G;
-    unsigned char R;
-};
 
-class ImgData: Pixel {
+class ImgData: public Scanner{
 private:
     std::vector <Pixel> pixelData;
     unsigned int stride;
     unsigned int yRes;
     unsigned int xRes;
 public:
-    void read();
+    ImgData(std::ifstream &inFile, BitmapFileHeader &header);
     void write();
 };
 
