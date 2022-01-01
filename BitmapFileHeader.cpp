@@ -26,7 +26,8 @@ BitmapFileHeader::BitmapFileHeader(std::ifstream &inFile) {
     biClrImportant = readDWord(inFile);
 
     //This magic number fuckery is the integer representation of a big-endian "BM" WORD.
-    if(bfType != 19778) {
+
+    if(bfType != 0x4d42) {
         throw WRONG_FILE_TYPE();
     }
     if(inFile.eof() || inFile.bad()){

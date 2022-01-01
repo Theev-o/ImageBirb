@@ -5,19 +5,14 @@
 #include "Scanner.h"
 
 Scanner::WORD Scanner::readWord(std::ifstream &file) {
-    Scanner::WORD value = 0;
-    for(int i = 0; i < sizeof(Scanner::WORD); ++i ){
-        value << 8;
-        value += file.get();
-    }
+    Scanner::WORD value = file.get() + (file.get() << 8);
     return value;
 }
 
 Scanner::DWORD Scanner::readDWord(std::ifstream &file) {
     Scanner::DWORD value = 0;
-    for(int i = 0; i < sizeof(Scanner::DWORD); ++i ){
-        value << 8;
-        value += file.get();
+    for(int i = 0; i < 4; i++){
+        value += file.get() << (8 * i);
     }
     return value;
 }

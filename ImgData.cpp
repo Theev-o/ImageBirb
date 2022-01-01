@@ -19,7 +19,7 @@ ImgData::ImgData(std::ifstream &inFile, BitmapFileHeader &header) {
             pixelData.push_back(readPixel(inFile));
         }
     }
-    std::cout << "Read " << pixelData.size() << "pixels.\n";
+    std::cout << "Read " << pixelData.size() << " pixels.\n";
     if(pixelData.size() != xRes * yRes){
         throw PIXEL_DATA_MISMATCH();
     }
