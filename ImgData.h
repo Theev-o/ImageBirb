@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "Scanner.h"
-#include "BitmapFileHeader.h"
+#include "BMPFileHeader.h"
 
 
 class ImgData: public Scanner{
@@ -17,8 +17,18 @@ private:
     unsigned int yRes;
     unsigned int xRes;
 public:
-    ImgData(std::ifstream &inFile, BitmapFileHeader &header);
-    void write();
+    ImgData(std::ifstream &inFile, BMPFileHeader &header);
+    void downscale4X(ImgData &inImage);
+    void upscale4X(ImgData &image);
+    void imgFlip(ImgData &image);
+    void greyscale(ImgData &image);
+    void avgClr(ImgData &image);
+    int getYRes();
+    int getXRes();
+    int getStride();
+    void write(std::ofstream &outFile);
+
+   ImgData();
 };
 
 #endif //IMAGEBIRB_IMGDATA_H

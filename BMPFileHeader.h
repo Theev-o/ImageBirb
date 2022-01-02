@@ -2,12 +2,14 @@
 // Created by Michał Kuć on 31/12/2021.
 //
 
-#ifndef IMAGEBIRB_BITMAPFILEHEADER_H
-#define IMAGEBIRB_BITMAPFILEHEADER_H
+#ifndef IMAGEBIRB_BMPFILEHEADER_H
+#define IMAGEBIRB_BMPFILEHEADER_H
 
 #include "Scanner.h"
 
-class BitmapFileHeader: public Scanner {
+class ImgData;
+
+class BMPFileHeader: public Scanner{
 private:
     WORD bfType;             //The type of the file (BM in hex chars)
     DWORD bfSize;            //The filesize in bytes
@@ -25,13 +27,14 @@ private:
     DWORD biClrUsed;         //Numbers of colors in palette, use 0 to default to 2^n
     DWORD biClrImportant;    //Number of important colors, use 0
 public:
-    explicit BitmapFileHeader(std::ifstream &inFile);
+    BMPFileHeader(std::ifstream &inFile);
+    BMPFileHeader(ImgData &outImgData);
     DWORD getHeight() const;
     DWORD getWidth() const;
     WORD getBitCount() const;
     DWORD getOffset() const;
-    void write();
+    void write(std::ofstream &outFile);
 };
 
 
-#endif //IMAGEBIRB_BITMAPFILEHEADER_H
+#endif //IMAGEBIRB_BMPFILEHEADER_H
