@@ -1,15 +1,13 @@
-//
-// Created by Michał Kuć on 31/12/2021.
-//
-
 #ifndef IMAGEBIRB_BMPFILEHEADER_H
 #define IMAGEBIRB_BMPFILEHEADER_H
 
 #include "Scanner.h"
 
+//Forward declaration of the ImgData class, to avoid recursive includes
 class ImgData;
 
-class BMPFileHeader: public Scanner{
+//Class that contains all the BMP file header data, as defined by microsoft docs
+class BMPFileHeader : public Scanner {
 private:
     WORD bfType;             //The type of the file (BM in hex chars)
     DWORD bfSize;            //The filesize in bytes
@@ -27,14 +25,22 @@ private:
     DWORD biClrUsed;         //Numbers of colors in palette, use 0 to default to 2^n
     DWORD biClrImportant;    //Number of important colors, use 0
 public:
+    //Constructor that ingests header data from file
     BMPFileHeader(std::ifstream &inFile);
+
+    //Constructor that calculates header data from image parameters
     BMPFileHeader(ImgData &outImgData);
+
+    //Getter functions for their respective fields
     DWORD getHeight() const;
+
     DWORD getWidth() const;
+
     WORD getBitCount() const;
+
     DWORD getOffset() const;
+
+    //Writes header data to output file
     void write(std::ofstream &outFile);
 };
-
-
 #endif //IMAGEBIRB_BMPFILEHEADER_H

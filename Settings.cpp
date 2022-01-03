@@ -1,16 +1,15 @@
-//
-// Created by Michał Kuć on 31/12/2021.
-//
-
 #include "Settings.h"
 
 #include <iostream>
 
 Settings::Settings(int argc, char **argv) {
-    if(argc == 6){
-        for(int i = 1; i < argc; ++i) {
+    //Check if the argument count is 6 or 1
+    if (argc == 6) {
+        //For all the user passed arguments...
+        for (int i = 1; i < argc; ++i) {
+            //Check if the first character is '-', then depending on the second character set the fields
             if (argv[i][0] == '-') {
-                switch(argv[i][1]) {
+                switch (argv[i][1]) {
                     case 'i':
                         Settings::inputPath = argv[++i];
                         break;
@@ -46,8 +45,10 @@ Settings::Settings(int argc, char **argv) {
                 throw std::invalid_argument("Invalid syntax");
             }
         }
+        //The 1 user argument case
     } else if (argc == 2) {
-        if(argv[1] = "-h") {
+        //Must be the help arg, otherwise things will break. More error handling
+        if (strcmp(argv[1], "-h")) {
             Settings::operatingMode = Help;
         } else {
             throw std::invalid_argument("Invalid syntax, run -h on its own for help");

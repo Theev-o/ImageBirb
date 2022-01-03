@@ -1,9 +1,6 @@
-//
-// Created by Michał Kuć on 01/01/2022.
-//
-
 #include "Exceptions.h"
 
+//All the exception return values for what() - error messages
 const char *WRONG_FILE_TYPE::what() const throw() {
     return "This is not a BMP file\n";
 }

@@ -1,10 +1,9 @@
-#include <iostream>
-#include <fstream>
-
 #include "Settings.h"
 #include "Exceptions.h"
 #include "BMPFileHeader.h"
 #include "ImgData.h"
+
+#include <iostream>
 
 int main(int argc, char *argv[]) {
     //Create a params object that holds the program settings
@@ -12,7 +11,7 @@ int main(int argc, char *argv[]) {
     //Populate the settings by ingesting the input arguments, close program if an error occurs
     try {
         params = std::make_unique<Settings>(argc, argv);
-    } catch (std::length_error &e){
+    } catch (std::length_error &e) {
         std::cerr << e.what();
         return 1;
     } catch (std::invalid_argument &e) {
@@ -20,16 +19,16 @@ int main(int argc, char *argv[]) {
         return 2;
     }
     //If the program was run with -h, display the help screen
-    if(params -> operatingMode == Settings::Help){
-        params -> displayHelp();
+    if (params->operatingMode == Settings::Help) {
+        params->displayHelp();
         return 0;
     }
     //Open the user-specified file, close program if unable to open
     std::ifstream inFile;
     try {
-        inFile.open(params -> inputPath, std::ios::binary);
-        if(!inFile.is_open()){
-            throw std::ios_base::failure ("Unable to open input file.");
+        inFile.open(params->inputPath, std::ios::binary);
+        if (!inFile.is_open()) {
+            throw std::ios_base::failure("Unable to open input file.");
         }
     } catch (std::ios_base::failure &e) {
         std::cerr << e.what();
@@ -60,36 +59,30 @@ int main(int argc, char *argv[]) {
     //Create an empty imgData object, populate it with one of the image manipulation functions
     std::unique_ptr<ImgData> outImgData;
     try {
-        switch(params -> operatingMode) {
+        switch (params->operatingMode) {
             case Settings::Downscale4X:
                 outImgData = std::make_unique<ImgData>();
                 outImgData->downscale4X(*inImgData);
                 break;
-
             case Settings::Upscale4X:
                 outImgData = std::make_unique<ImgData>();
                 outImgData->upscale4X(*inImgData);
                 break;
-
             case Settings::Greyscale:
                 outImgData = std::make_unique<ImgData>();
                 outImgData->greyscale(*inImgData);
                 break;
-
             case Settings::Flip:
                 outImgData = std::make_unique<ImgData>();
                 outImgData->imgFlip(*inImgData);
                 break;
-
             case Settings::AvgColor:
                 outImgData = std::make_unique<ImgData>();
                 outImgData->avgClr(*inImgData);
                 break;
-
             case Settings::Help:
-                params -> displayHelp();
+                params->displayHelp();
                 return 0;
-
             default:
                 throw std::invalid_argument("Something went wrong when choosing operating mode.");
         }
@@ -100,20 +93,19 @@ int main(int argc, char *argv[]) {
     //Create a new empty BMPFileHeader object, populate it using new image data
     std::unique_ptr<BMPFileHeader> outFileHeader;
     outFileHeader = std::make_unique<BMPFileHeader>(*outImgData);
-
     //Create the user-specified file, close program if unable to open
     std::ofstream outFile;
     try {
-        outFile.open(params -> outputPath, std::ios_base::in);
-        if(!outFile.is_open()){
-            throw std::ios_base::failure ("Unable to create output file.");
+        outFile.open(params->outputPath, std::ios_base::in);
+        if (!outFile.is_open()) {
+            throw std::ios_base::failure("Unable to create output file.");
         }
+        //Write the header and pixel data to the file
         outFileHeader->write(outFile);
-        outImgData ->write(outFile);
+        outImgData->write(outFile);
     } catch (std::ios_base::failure &e) {
         std::cerr << e.what();
         return 9;
     }
-
     return 0;
 }
