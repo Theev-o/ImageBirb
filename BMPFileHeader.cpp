@@ -88,3 +88,4 @@ void BMPFileHeader::write(std::ofstream &outFile) {
     outFile.write((char*)&biClrUsed, sizeof(biClrUsed));
     outFile.write((char*)&biClrImportant, sizeof(biClrImportant));
 }
+

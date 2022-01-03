@@ -23,6 +23,7 @@ public:
     void imgFlip(ImgData &image);
     void greyscale(ImgData &image);
     void avgClr(ImgData &image);
+    Pixel avgPix(Pixel &a, Pixel &b);
     int getYRes();
     int getXRes();
     int getStride();
