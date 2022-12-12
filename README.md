@@ -1,5 +1,5 @@
 # ImageBirb
-A simple terminal-based C++ program that manipulates 24-bit BMP images. Doesn't support other color depths because I'm lazy.
+A simple terminal-based C++ program that manipulates 24-bit BMP images at the bytedata level. Doesn't support other color depths because I'm lazy.
 
 # Functionality
 - Downscale 4 times
